@@ -1,0 +1,13 @@
+*.o
+*.a
+*.d
+deprecated
+deprecated/*
+*.txt
+minishell
+lkdsmfld
+lkdsmfld/*
+test
+test/*
+old_*
+old_*/*
