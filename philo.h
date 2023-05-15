@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:16:55 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/14 16:42:49 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/15 15:38:03 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,5 @@ int		ft_isdigit_str(char *str);
 int		ft_atoi(const char *str);
 size_t	get_time(void);
 void	ft_usleep(size_t time);
+int		ded(t_philo *philo);
 #endif

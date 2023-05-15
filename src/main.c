@@ -6,13 +6,13 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:21:04 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/14 15:12:14 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/15 17:48:07 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "../philo.h"
 
-void alone(t_data *data);
+void	alone(t_data *data);
 
 int	main(int arg_c, char **arg_v)
 {
@@ -36,6 +36,7 @@ int	main(int arg_c, char **arg_v)
 		alone(data);
 	else
 		philo_init(data);
+	free(data->fork);
 	free(data->all_philo);
 	free(data);
 	return (0);
