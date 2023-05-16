@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:21:04 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/15 17:48:07 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/16 11:41:11 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ void	alone(t_data *data)
 {
 	if (data->nb_philo == 1)
 	{
-		printf("0 : 0 has taken a fork\n");
+		printf("0 0 has taken a fork\n");
 		ft_usleep(data->time_to_die);
-		printf("%zu : 0 has died\n", data->time_to_die / 1000);
+		printf("%zu 0 died\n", data->time_to_die / 1000);
 	}
 }

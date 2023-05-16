@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:57:59 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/15 17:43:33 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/16 11:55:15 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ void	philo_routine(void *org)
 	while (is_dead(philo, 1) == 1)
 	{
 		is_eating(philo);
-		// ft_usleep(3);
-		ded(philo);
+		if (ded(philo) == 2)
+			return ;
 	}
-	// printf("%zu is ended : alive ?= %i when %zu\n", philo->index, philo->alive, (get_time() - philo->data->start_time) / 1000);
 }
 
 void	philo_init(t_data	*data)

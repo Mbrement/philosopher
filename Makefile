@@ -9,6 +9,7 @@ SRCS	=	main.c\
 			data_init.c\
 			philo_runner.c\
 			check_death.c\
+			philo_fork.c\
 
 DIR_SRCS = src/
 
