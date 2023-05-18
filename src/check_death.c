@@ -6,11 +6,12 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 13:34:02 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/16 13:16:39 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/18 04:23:02 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+#include <unistd.h>
 
 static int	check(t_data *data);
 
@@ -75,7 +76,9 @@ static int	check(t_data *data)
 		pthread_mutex_unlock(&data->all_philo[i].lock);
 	}
 	if (check == data->nb_philo)
+	{
 		return (1);
+	}
 	else
 		return (0);
 }

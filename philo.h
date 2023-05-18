@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:16:55 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/16 17:18:03 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/18 05:30:18 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 # define TAKEN 1
 
 # define  AVAILABLE 0
+
+# define TIME "(get_time() - philo->data->start_time) / 1000"
 
 typedef struct s_data {
 	size_t			nb_philo;
@@ -52,13 +54,15 @@ typedef struct s_philo {
 
 //CORE
 void	philo_error(int i);
-t_data	data_init(int argc, char **argv, t_data	data);
+t_data	*data_init(int argc, char **argv, t_data *data);
 void	philo_init(t_data	*data);
 int		is_dead(t_philo *philo, int i);
 void	is_eating(t_philo *philo);
 void	check_death(t_data *data);
-
-//PARSER
+void	philo_fork(t_philo *philo);
+int		dead(t_philo *philo);
+void	first_fork(t_philo *philo);
+void	second_fork(t_philo *philo);
 
 //TOOLS
 int		ft_isdigit(int c);
@@ -66,7 +70,6 @@ int		ft_isdigit_str(char *str);
 int		ft_atoi(const char *str);
 size_t	get_time(void);
 void	ft_usleep(size_t time);
-int		ded(t_philo *philo);
-void	first_fork(t_philo *philo);
-int		second_fork(t_philo *philo);
+size_t	since_start(t_philo *philo);
+
 #endif

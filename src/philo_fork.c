@@ -6,88 +6,71 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:32:35 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/16 17:25:32 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/18 05:30:13 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-static inline int	first_fork2(t_philo *philo, int i)
+void	philo_fork(t_philo *philo)
 {
-	philo->data->fork[philo->index - 1] = TAKEN;
-	pthread_mutex_unlock(&philo->data->lock);
-	printf("%zu %zu has taken a fork\n", (get_time() - \
-	philo->data->start_time) / 1000, philo->index);
-	i += 2;
 	if (philo->index % 2 == 1)
-		i += second_fork(philo);
-	return (i);
+	{
+		second_fork(philo);
+		first_fork(philo);
+	}
+	else
+	{
+		first_fork(philo);
+		second_fork(philo);
+	}
 }
 
 void	first_fork(t_philo *philo)
 {
-	int	i;
-
-	i = 0;
 	while (1)
 	{
-		if (philo->index % 2 == 0)
-			i = second_fork(philo);
-		if (ded(philo) == 0)
-			break ;
 		pthread_mutex_lock(&philo->data->lock);
-		if (ded(philo) == 0)
+		if (dead(philo) == 0)
+			return ((void)pthread_mutex_unlock(&philo->data->lock));
+		if (philo->data->fork[philo->index - 1] == AVAILABLE)
 		{
+			if (dead(philo) != 0)
+			{
+				philo->data->fork[philo->index - 1] = philo->index;
+				printf("%zu %zu has taken a fork\n", (get_time() - \
+				philo->data->start_time) / 1000, philo->index);
+			}
 			pthread_mutex_unlock(&philo->data->lock);
 			return ;
 		}
-		if (philo->data->fork[philo->index - 1] == AVAILABLE)
-		{
-			i = first_fork2(philo, i);
-			break ;
-		}
 		else
-		{
 			pthread_mutex_unlock(&philo->data->lock);
-			ft_usleep(10);
-		}
-	}
-	if (i != 3)
-	{
-		pthread_mutex_lock(&philo->lock);
-		philo->alive = 0;
-		pthread_mutex_unlock(&philo->lock);
 	}
 }
 
-int	second_fork(t_philo *philo)
+void	second_fork(t_philo *philo)
 {
 	size_t	i;
-	int		j;
 
-	i = 0;
-	j = 0;
-	if (philo->index != philo->data->nb_philo)
-		i = philo->index;
+	i = philo->index;
+	if (philo->index == philo->data->nb_philo)
+		i = 0;
 	while (1)
 	{
-		if (ded(philo) == 0)
-		{
-			pthread_mutex_unlock(&philo->data->lock);
-			return (j);
-		}
 		pthread_mutex_lock(&philo->data->lock);
+		if (dead(philo) == 0)
+			return ((void)pthread_mutex_unlock(&philo->data->lock));
 		if (philo->data->fork[i] == AVAILABLE)
 		{
-			philo->data->fork[i] = TAKEN;
-			pthread_mutex_unlock(&philo->data->lock);
-			printf("%zu %zu has taken a fork\n", (get_time() - \
+			if (dead(philo) != 0)
+			{
+				philo->data->fork[i] = philo->index;
+				printf("%zu %zu has taken a fork\n", (get_time() - \
 					philo->data->start_time) / 1000, philo->index);
-			j++;
-			break ;
+			}
+			return ((void)pthread_mutex_unlock(&philo->data->lock));
 		}
-		else
-			pthread_mutex_unlock(&philo->data->lock);
+		pthread_mutex_unlock(&philo->data->lock);
 	}
-	return (j);
 }

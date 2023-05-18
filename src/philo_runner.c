@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 17:45:21 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/16 14:14:45 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/18 04:28:40 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,19 @@ inline int	is_dead(t_philo *philo, int i)
 	return (0);
 }
 
-int	ded(t_philo *philo)
+int	dead(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->lock);
 	if (philo->nb_of_eat == philo->data->must_eat)
-		return (2);
+		return (pthread_mutex_unlock(&philo->lock), 2);
 	if (get_time() > philo->last_eat + philo->data->time_to_die \
 		|| philo->alive == 0)
 	{
-		pthread_mutex_lock(&philo->lock);
 		philo->alive = 0;
 		pthread_mutex_unlock(&philo->lock);
 		return (0);
 	}
+	pthread_mutex_unlock(&philo->lock);
 	return (1);
 }
 
@@ -60,36 +61,39 @@ int	ft_musteat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->lock);
 	philo->nb_of_eat++;
-	if (philo->nb_of_eat == philo->data->must_eat)
-		return (pthread_mutex_unlock(&philo->lock), 1);
 	pthread_mutex_unlock(&philo->lock);
+	if (philo->nb_of_eat == philo->data->must_eat)
+	{
+		return (1);
+	}
 	return (0);
 }
 
 void	is_eating(t_philo *philo)
 {
-	if (ded(philo) == 0)
+	if (dead(philo) == 0)
 		return ;
-	first_fork(philo);
-	if (ded(philo) == 0)
-		return (ft_unlock(philo));
-	printf("%zu %zu is eating\n", (get_time() - \
-			philo->data->start_time) / 1000, philo->index);
+	philo_fork(philo);
+	if (dead(philo) == 0)
+		return ;
+	printf("%zu %zu is eating\n", since_start(philo), philo->index);
+	pthread_mutex_lock(&philo->lock);
 	philo->last_eat = get_time();
+	pthread_mutex_unlock(&philo->lock);
 	ft_usleep(philo->data->time_eat);
-	philo->last_eat = get_time();
-	if (ded(philo) == 0)
-		return (ft_unlock(philo));
 	ft_unlock(philo);
+	pthread_mutex_lock(&philo->lock);
+	philo->last_eat = get_time();
+	pthread_mutex_unlock(&philo->lock);
+	if (dead(philo) == 0)
+		return ;
 	if (ft_musteat(philo) == 1)
 		return ;
-	if (ded(philo) == 0)
+	if (dead(philo) == 0)
 		return ;
-	printf("%zu %zu is sleeping\n", (get_time() - \
-			philo->data->start_time) / 1000, philo->index);
+	printf("%zu %zu is sleeping\n", since_start(philo), philo->index);
 	ft_usleep(philo->data->time_sleep);
-	if (ded(philo) == 0)
+	if (dead(philo) == 0)
 		return ;
-	printf("%zu %zu is thinking\n", (get_time() - \
-			philo->data->start_time) / 1000, philo->index);
+	printf("%zu %zu is thinking\n", since_start(philo), philo->index);
 }

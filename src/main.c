@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:21:04 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/16 11:41:11 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/17 03:58:18 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int arg_c, char **arg_v)
 	data = malloc(sizeof(t_data));
 	if (!data)
 		philo_error(131);
-	*data = data_init(arg_c, arg_v, *data);
+	data = data_init(arg_c, arg_v, data);
 	if (data->nb_philo <= 1)
 		alone(data);
 	else

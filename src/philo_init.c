@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:57:59 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/16 11:55:15 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/18 04:33:34 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ void	philo_routine(void *org)
 	t_philo	*philo;
 
 	philo = org;
-	usleep(philo->index * 10);
+	ft_usleep(philo->index * 10);
 	while (is_dead(philo, 1) == 1)
 	{
 		is_eating(philo);
-		if (ded(philo) == 2)
-			return ;
+		if (dead(philo) == 2)
+			break ;
 	}
 }
 
@@ -33,7 +33,7 @@ void	philo_init(t_data	*data)
 	i = (size_t) -1;
 	data->all_philo = malloc(sizeof(t_philo) * (data->nb_philo));
 	if (!data->all_philo)
-		philo_error(131);
+		return (free(data->fork), free(data), philo_error(131));
 	while (++i < data->nb_philo)
 	{
 		data->all_philo[i].last_eat = get_time();
