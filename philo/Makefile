@@ -19,7 +19,7 @@ DIR_HEAD = ./
 
 OBJS	=	${SRCS:%.c=${DIR_OBJS}%.o}
 
-CC	=	gcc-10
+CC	=	cc
 
 MKDIR	=	mkdir -p
 
