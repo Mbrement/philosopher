@@ -6,11 +6,12 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 11:02:25 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/17 03:57:52 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/28 02:44:07 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+#include <bits/pthreadtypes.h>
 
 t_data	*data_init(int argc, char **argv, t_data	*data)
 {
@@ -24,6 +25,8 @@ t_data	*data_init(int argc, char **argv, t_data	*data)
 	data->start_time = get_time();
 	data->alive = 1;
 	pthread_mutex_init(&data->lock, NULL);
+	pthread_mutex_init(&data->print, NULL);
+	pthread_mutex_init(&data->start, NULL);
 	data->fork = malloc(sizeof(int) * (data->nb_philo));
 	if (!data->fork)
 		return (free(data), philo_error(131), data);

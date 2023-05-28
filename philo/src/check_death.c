@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 13:34:02 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/18 04:23:02 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/28 02:08:32 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@ static void	apocalypse(t_data *data)
 	size_t	i;
 
 	i = -1;
+	pthread_mutex_lock(&data->print);
+	data->alive = 0;
+	pthread_mutex_unlock(&data->print);
 	while (++i < data->nb_philo)
 	{
 		pthread_mutex_lock(&data->all_philo[i].lock);
@@ -42,8 +45,7 @@ void	check_death(t_data *data)
 					|| data->all_philo[i].alive == 0) && \
 					data->all_philo[i].nb_of_eat != data->must_eat)
 			{
-				printf("%zu %zu died\n", (get_time() - \
-					data->start_time) / 1000, data->all_philo[i].index);
+				ft_print(5, &data->all_philo[i]);
 				data->all_philo[i].alive = 0;
 				pthread_mutex_unlock(&data->all_philo[i].lock);
 				apocalypse(data);

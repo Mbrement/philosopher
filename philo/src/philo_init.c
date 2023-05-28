@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:57:59 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/18 04:33:34 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/28 04:11:47 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,14 @@ void	philo_routine(void *org)
 	t_philo	*philo;
 
 	philo = org;
-	ft_usleep(philo->index * 10);
+	pthread_mutex_lock(&philo->data->start);
+	pthread_mutex_unlock(&philo->data->start);
+	if (philo->index % 2 == 0)
+		ft_usleep((philo->data->time_eat * 0.9));
 	while (is_dead(philo, 1) == 1)
 	{
 		is_eating(philo);
-		if (dead(philo) == 2)
+		if (dead(philo) == 2 || philo->nb_of_eat == philo->data->must_eat)
 			break ;
 	}
 }
@@ -31,6 +34,7 @@ void	philo_init(t_data	*data)
 	size_t	i;
 
 	i = (size_t) -1;
+	pthread_mutex_lock(&data->start);
 	data->all_philo = malloc(sizeof(t_philo) * (data->nb_philo));
 	if (!data->all_philo)
 		return (free(data->fork), free(data), philo_error(131));
@@ -45,10 +49,9 @@ void	philo_init(t_data	*data)
 		pthread_create(&data->all_philo[i].thread, NULL, (void *)philo_routine \
 			, (void *)&data->all_philo[i]);
 	}
+	data->start_time = get_time();
+	pthread_mutex_unlock(&data->start);
 	check_death(data);
 	while (i > 0)
-	{
-		pthread_join(data->all_philo[i - 1].thread, NULL);
-		i--;
-	}
+		pthread_join(data->all_philo[i-- - 1].thread, NULL);
 }

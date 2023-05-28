@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:16:55 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/18 05:30:18 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/28 01:54:00 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef struct s_data {
 	struct s_philo	*all_philo;
 	int				*fork;
 	pthread_mutex_t	lock;
+	pthread_mutex_t	print;
+	pthread_mutex_t	start;
 	int				alive;
 }		t_data;
 
@@ -63,6 +65,7 @@ void	philo_fork(t_philo *philo);
 int		dead(t_philo *philo);
 void	first_fork(t_philo *philo);
 void	second_fork(t_philo *philo);
+int		ft_musteat(t_philo *philo);
 
 //TOOLS
 int		ft_isdigit(int c);
@@ -71,5 +74,6 @@ int		ft_atoi(const char *str);
 size_t	get_time(void);
 void	ft_usleep(size_t time);
 size_t	since_start(t_philo *philo);
+void	ft_print(int i, t_philo *philo);
 
 #endif

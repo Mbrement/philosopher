@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 13:32:35 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/18 05:30:13 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/25 14:38:53 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,8 @@
 
 void	philo_fork(t_philo *philo)
 {
-	if (philo->index % 2 == 1)
-	{
-		second_fork(philo);
-		first_fork(philo);
-	}
-	else
-	{
-		first_fork(philo);
-		second_fork(philo);
-	}
+	second_fork(philo);
+	first_fork(philo);
 }
 
 void	first_fork(t_philo *philo)
@@ -38,8 +30,7 @@ void	first_fork(t_philo *philo)
 			if (dead(philo) != 0)
 			{
 				philo->data->fork[philo->index - 1] = philo->index;
-				printf("%zu %zu has taken a fork\n", (get_time() - \
-				philo->data->start_time) / 1000, philo->index);
+				ft_print(1, philo);
 			}
 			pthread_mutex_unlock(&philo->data->lock);
 			return ;
@@ -66,8 +57,7 @@ void	second_fork(t_philo *philo)
 			if (dead(philo) != 0)
 			{
 				philo->data->fork[i] = philo->index;
-				printf("%zu %zu has taken a fork\n", (get_time() - \
-					philo->data->start_time) / 1000, philo->index);
+				ft_print(1, philo);
 			}
 			return ((void)pthread_mutex_unlock(&philo->data->lock));
 		}

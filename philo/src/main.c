@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:21:04 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/17 03:58:18 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/28 02:18:52 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ int	main(int arg_c, char **arg_v)
 	if (!data)
 		philo_error(131);
 	data = data_init(arg_c, arg_v, data);
-	if (data->nb_philo <= 1)
-		alone(data);
-	else
-		philo_init(data);
+	philo_init(data);
 	free(data->fork);
 	free(data->all_philo);
 	free(data);
@@ -46,8 +43,8 @@ void	alone(t_data *data)
 {
 	if (data->nb_philo == 1)
 	{
-		printf("0 0 has taken a fork\n");
+		printf("0 1 has taken a fork\n");
 		ft_usleep(data->time_to_die);
-		printf("%zu 0 died\n", data->time_to_die / 1000);
+		printf("%zu 1 died\n", data->time_to_die / 1000);
 	}
 }

@@ -10,6 +10,7 @@ SRCS	=	main.c\
 			philo_runner.c\
 			check_death.c\
 			philo_fork.c\
+			ft_print.c\
 
 DIR_SRCS = src/
 
@@ -27,7 +28,7 @@ HEADERS	=	philo.h
 
 NAME	=	philo
 
-CFLAGS	= -Wall -Wextra -Werror -g3 -o2
+CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=thread
 
 all :		${NAME}
 
@@ -47,6 +48,6 @@ ${DIR_OBJS}			:
 					${MKDIR} ${DIR_OBJS}
 
 ${NAME}	:	${OBJS}
-			${CC} ${CFLAGS} -o ${NAME} ${OBJS} -lpthread 
+			${CC} ${CFLAGS} -o ${NAME} ${OBJS} -lpthread -march=native
 
 .PHONY:		all clean fclean re

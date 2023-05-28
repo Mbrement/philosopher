@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 17:45:21 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/18 04:28:40 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/05/28 04:13:25 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	ft_unlock(t_philo *philo)
 	pthread_mutex_unlock(&philo->data->lock);
 }
 
-int	ft_musteat(t_philo *philo)
+inline int	ft_musteat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->lock);
 	philo->nb_of_eat++;
@@ -76,24 +76,21 @@ void	is_eating(t_philo *philo)
 	philo_fork(philo);
 	if (dead(philo) == 0)
 		return ;
-	printf("%zu %zu is eating\n", since_start(philo), philo->index);
+	ft_print(2, philo);
 	pthread_mutex_lock(&philo->lock);
 	philo->last_eat = get_time();
 	pthread_mutex_unlock(&philo->lock);
 	ft_usleep(philo->data->time_eat);
 	ft_unlock(philo);
-	pthread_mutex_lock(&philo->lock);
-	philo->last_eat = get_time();
-	pthread_mutex_unlock(&philo->lock);
 	if (dead(philo) == 0)
 		return ;
 	if (ft_musteat(philo) == 1)
 		return ;
 	if (dead(philo) == 0)
 		return ;
-	printf("%zu %zu is sleeping\n", since_start(philo), philo->index);
+	ft_print(4, philo);
 	ft_usleep(philo->data->time_sleep);
 	if (dead(philo) == 0)
 		return ;
-	printf("%zu %zu is thinking\n", since_start(philo), philo->index);
+	ft_print(3, philo);
 }
