@@ -28,7 +28,7 @@ HEADERS	=	philo.h
 
 NAME	=	philo
 
-CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=thread
+CFLAGS	= -Wall -Wextra -Werror -g3 -oFast
 
 all :		${NAME}
 
@@ -48,6 +48,6 @@ ${DIR_OBJS}			:
 					${MKDIR} ${DIR_OBJS}
 
 ${NAME}	:	${OBJS}
-			${CC} ${CFLAGS} -o ${NAME} ${OBJS} -lpthread -march=native
+			${CC} ${CFLAGS} -o ${NAME} ${OBJS} -lpthread -march=native -ffast-math
 
 .PHONY:		all clean fclean re

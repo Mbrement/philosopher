@@ -6,13 +6,13 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:21:04 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/28 02:18:52 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/06/01 19:29:17 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-void	alone(t_data *data);
+static void	alone(t_data *data);
 
 int	main(int arg_c, char **arg_v)
 {
@@ -32,19 +32,20 @@ int	main(int arg_c, char **arg_v)
 	if (!data)
 		philo_error(131);
 	data = data_init(arg_c, arg_v, data);
-	philo_init(data);
+	if (data->nb_philo == 1)
+		alone(data);
+	else
+		philo_init(data);
+	free(data->fork_m);
 	free(data->fork);
 	free(data->all_philo);
 	free(data);
 	return (0);
 }
 
-void	alone(t_data *data)
+static void	alone(t_data *data)
 {
-	if (data->nb_philo == 1)
-	{
-		printf("0 1 has taken a fork\n");
-		ft_usleep(data->time_to_die);
-		printf("%zu 1 died\n", data->time_to_die / 1000);
-	}
+	printf("0 1 has taken a fork\n");
+	ft_usleep(data->time_to_die);
+	printf("%zu 1 died\n", data->time_to_die / 1000);
 }

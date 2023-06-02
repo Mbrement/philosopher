@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:16:55 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/28 01:54:00 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/06/01 20:41:24 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@
 
 # define  AVAILABLE 0
 
-# define TIME "(get_time() - philo->data->start_time) / 1000"
-
 typedef struct s_data {
 	size_t			nb_philo;
 	size_t			time_to_die;
@@ -38,6 +36,7 @@ typedef struct s_data {
 	size_t			start_time;
 	struct s_philo	*all_philo;
 	int				*fork;
+	pthread_mutex_t	*fork_m;
 	pthread_mutex_t	lock;
 	pthread_mutex_t	print;
 	pthread_mutex_t	start;
@@ -51,7 +50,6 @@ typedef struct s_philo {
 	pthread_t		thread;
 	pthread_mutex_t	lock;
 	struct s_data	*data;
-	short			alive;
 }		t_philo;
 
 //CORE
@@ -75,5 +73,6 @@ size_t	get_time(void);
 void	ft_usleep(size_t time);
 size_t	since_start(t_philo *philo);
 void	ft_print(int i, t_philo *philo);
+void	wft_usleep(t_philo *philo, size_t t);
 
 #endif

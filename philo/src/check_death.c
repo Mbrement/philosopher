@@ -6,30 +6,15 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/14 13:34:02 by mbrement          #+#    #+#             */
-/*   Updated: 2023/05/28 02:08:32 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/06/02 11:15:42 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
-#include <unistd.h>
 
 static int	check(t_data *data);
 
-static void	apocalypse(t_data *data)
-{
-	size_t	i;
-
-	i = -1;
-	pthread_mutex_lock(&data->print);
-	data->alive = 0;
-	pthread_mutex_unlock(&data->print);
-	while (++i < data->nb_philo)
-	{
-		pthread_mutex_lock(&data->all_philo[i].lock);
-		data->all_philo[i].alive = 0;
-		pthread_mutex_unlock(&data->all_philo[i].lock);
-	}
-}
+static void	ft_kill(t_data *data, size_t i);
 
 void	check_death(t_data *data)
 {
@@ -41,15 +26,17 @@ void	check_death(t_data *data)
 		while (++i < data->nb_philo)
 		{
 			pthread_mutex_lock(&data->all_philo[i].lock);
-			if ((get_time() > data->time_to_die + data->all_philo[i].last_eat \
-					|| data->all_philo[i].alive == 0) && \
-					data->all_philo[i].nb_of_eat != data->must_eat)
+			if (get_time() > data->time_to_die + data->all_philo[i].last_eat \
+				&& data->all_philo[i].nb_of_eat != data->must_eat)
 			{
-				ft_print(5, &data->all_philo[i]);
-				data->all_philo[i].alive = 0;
-				pthread_mutex_unlock(&data->all_philo[i].lock);
-				apocalypse(data);
-				return ;
+				pthread_mutex_lock(&data->lock);
+				if (data->alive == 1)
+				{
+					pthread_mutex_unlock(&data->lock);
+					ft_print(5, &data->all_philo[i]);
+					pthread_mutex_lock(&data->lock);
+				}
+				return (ft_kill(data, i));
 			}
 			pthread_mutex_unlock(&data->all_philo[i].lock);
 		}
@@ -83,4 +70,11 @@ static int	check(t_data *data)
 	}
 	else
 		return (0);
+}
+
+static void	ft_kill(t_data *data, size_t i)
+{
+	data->alive = 0;
+	pthread_mutex_unlock(&data->lock);
+	pthread_mutex_unlock(&data->all_philo[i].lock);
 }
