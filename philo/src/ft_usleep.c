@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:42:49 by mbrement          #+#    #+#             */
-/*   Updated: 2023/06/01 20:24:02 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 17:58:34 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,12 @@ void	wft_usleep(t_philo *philo, size_t t)
 	size_t	i;
 
 	i = philo->last_eat + philo->data->time_to_die;
-	if (philo->last_eat + t > i)
+	if (get_time() + t > i)
 	{
-		ft_usleep(i - philo->last_eat + t);
+		ft_usleep(t - (t - philo->data->time_to_die));
 		pthread_mutex_lock(&philo->data->lock);
-		printf("%zu %zu died", since_start(philo), philo->index);
+		if (philo->data->alive == 1)
+			printf("%zu %zu died", since_start(philo), philo->index);
 		philo->data->alive = 0;
 		pthread_mutex_unlock(&philo->data->lock);
 	}

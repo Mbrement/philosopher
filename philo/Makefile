@@ -28,7 +28,7 @@ HEADERS	=	philo.h
 
 NAME	=	philo
 
-CFLAGS	= -Wall -Wextra -Werror -g3 -oFast
+CFLAGS	= -Wall -Wextra -Werror #-oFast
 
 all :		${NAME}
 

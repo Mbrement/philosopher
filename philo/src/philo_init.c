@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:57:59 by mbrement          #+#    #+#             */
-/*   Updated: 2023/06/02 11:17:58 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 16:14:44 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	philo_routine(void *org)
 	pthread_mutex_unlock(&philo->data->start);
 	pthread_mutex_unlock(&philo->lock);
 	if (philo->index % 2 == 0)
-		ft_usleep((philo->data->time_to_die / 2));
+		wft_usleep(philo, (philo->data->time_eat / 2));
 	while (is_dead(philo, 1) == 1)
 	{
 		is_eating(philo);

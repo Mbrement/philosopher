@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 09:21:04 by mbrement          #+#    #+#             */
-/*   Updated: 2023/06/01 19:29:17 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 17:47:54 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,22 @@ int	main(int arg_c, char **arg_v)
 	return (0);
 }
 
+static void	alone_routine(void *get)
+{
+	size_t	*data;
+
+	data = get;
+	printf("0 1 has taken a fork\n");
+	ft_usleep(*data);
+	printf("%zu 1 died\n", *data / 1000);
+}
+
 static void	alone(t_data *data)
 {
-	printf("0 1 has taken a fork\n");
-	ft_usleep(data->time_to_die);
-	printf("%zu 1 died\n", data->time_to_die / 1000);
+	pthread_t	alone;
+
+	data->all_philo = NULL;
+	pthread_create(&alone, NULL, (void *)alone_routine \
+			, (void *)&data->time_to_die);
+	pthread_join(alone, NULL);
 }

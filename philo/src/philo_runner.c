@@ -6,7 +6,7 @@
 /*   By: mbrement <mbrement@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 17:45:21 by mbrement          #+#    #+#             */
-/*   Updated: 2023/06/01 20:23:13 by mbrement         ###   ########lyon.fr   */
+/*   Updated: 2023/06/05 17:37:23 by mbrement         ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	is_eating(t_philo *philo)
 	pthread_mutex_lock(&philo->lock);
 	philo->last_eat = get_time();
 	pthread_mutex_unlock(&philo->lock);
-	ft_usleep(philo->data->time_eat);
+	wft_usleep(philo, philo->data->time_eat);
 	ft_unlock(philo);
 	if (dead(philo) == 0)
 		return ;
@@ -91,7 +91,7 @@ void	is_eating(t_philo *philo)
 	if (dead(philo) == 0)
 		return ;
 	ft_print(4, philo);
-	ft_usleep(philo->data->time_sleep);
+	wft_usleep(philo, philo->data->time_sleep);
 	if (dead(philo) == 0)
 		return ;
 	ft_print(3, philo);
